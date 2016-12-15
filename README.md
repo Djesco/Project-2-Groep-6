@@ -1,3 +1,3 @@
 # Project-2-Groep-6
 
-Beschrijving van het 
+Beschrijving van het project
