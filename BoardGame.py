@@ -1,20 +1,20 @@
 import pygame
-
+import colors
 #colors
 red = (255, 0, 0)
 white = (255, 255, 255)
 blue = (0, 0, 255)
-brown = (110, 60, 19)
+brown = (110, 60, 15)
 yellow = (255, 255, 0)
 green = (0, 255, 0)
 
 
 #lists
-traversablelist = [(2, 0)]
+whitetiles = [(8, 1), (12, 1), (12, 2), (12, 3), (13, 3), (15, 3), (18, 3), (19, 3), (14, 4), (24,4),(26,4), (27,4), (12,5), (24, 5), (26, 5), (28, 5), (8, 6), (12, 6), (13, 6),(20,6), (21,6), (22,6), (24,6)]
 line = [(16,0), (16,1), (16,2), (16,3), (16, 6), (16,7), (16,8), (16,9), (16,10), (16,11), (16,12), (16,13), (16,16), (16,19)]
 landmarks = [(4,0), (8,2), (7,17), (11,8), (12,14), (14,19), (27,19), (29,16), (31,3), (25,4), (26,8), (21,0), (14,3), (23,15), (19,11), (16,11), (19,4), (29,11)]
 policesquares = [(7,6), (10,15), (16,0), (20,17), (28,4), (19,10)]
-arenas = [(5,19), (6,19), (7,19), (8,19), (9,19), (7,18), (10,11), (11,11), (12,11), (12,12), (15,13), (16,13), (15,14), (15,15), (15,16), (16,16), (10,2), (11,2), (11,3), (11,4), (11,5), (11,6), (10,6), (15,6), (16,6), (17,6), (18,6), (19,6), (20,6), (20,5), (15,5)]
+arenas = [(5,19), (6,19), (7,19), (8,19), (9,19), (7,18), (10,11), (11,11), (12,11), (12,12), (15,13), (16,13), (15,14), (15,15), (15,16), (16,16), (9,2), (10,2), (10,3), (10,4), (10,5), (10,6), (9,6), (14,6), (15,6), (16,6), (17,6), (18,6), (19,6), (19,5), (14,5)]
 kanskaarten = [(2,5), (2,16), (4,9), (7,7), (7,13), (7,19), (9,17), (10,2), (10,6), (12,0), (12,4), (12,13), (13,8), (15,0), (15,16), (16,8), (17,3), (18,13), (19,6), (20,19), (22,8), (23,6), (23,13), (26,0), (26,6), (26,11), (27,16), (31,1), (31,9), (31,16)]
 
 class Vector2:
@@ -31,6 +31,8 @@ class Tile:
         self.tail = tail
         self.type = type
         self.traversable = traversable
+
+
     def draw(self, screen, cSize, rSize):
         if self.traversable:
             pygame.draw.rect(screen, white, [self.pos.x * cSize, self.pos.y * rSize, cSize - 2, rSize - 2])
@@ -46,6 +48,14 @@ class Tile:
             pygame.draw.rect(screen, brown, [self.pos.x * cSize, self.pos.y * rSize, cSize -2, rSize - 2])
         if self.tail is not None:
             self.tail.draw(screen, cSize, rSize)
+class Player:
+    def __init__(self):
+        self.pos = Vector2(2, 0)
+
+    def draw(self, screen, cSize, rSize):
+        pygame.draw.rect(screen, red, [self.pos.x * cSize, self.pos.y * rSize, cSize - 2, rSize - 2])
+
+
 
 class Game:
 
@@ -54,30 +64,76 @@ class Game:
         self.rows = rows
         self.width = width
         self.height = height
-        self.board = self.board()
+        self.policeline = self.Policeline(line)
+        self.arenas = self.Arenas(arenas)
+        self.kans = self.Kanskaarten(kanskaarten)
+        self.landmarks = self.Landmarks(landmarks)
+        self.policetiles = self.Policetile(policesquares)
+        self.whitetiles = self.Whitetiles(whitetiles)
+        self.player = Player()
 
-    def board(self):
-        board = None
-        for y in range(0,self.rows):
-            for x in range(0, self.colloms):
-                if (x, y) in policesquares:
-                    board = Tile(Vector2(x, y), board, True, "Police")
-                if (x, y) in arenas:
-                    board = Tile(Vector2(x, y), board, True, "Arena")
-                if (x, y) in line:
-                    board = Tile(Vector2(x, y), board, True, "Line")
-                if (x, y) in traversablelist:
-                    board = Tile(Vector2(x, y), board, True, "Tile")
-                if (x, y) in landmarks:
-                    board = Tile(Vector2(x, y), board, True, "Landmark")
-                if (x, y) in kanskaarten:
-                    board = Tile(Vector2(x, y), board, True, "Kans")
-                else:
-                    board = Tile(Vector2(x, y), board, False, "Empty")
-        return board
+    def Policeline(self, list):
+        policeline = None
+        for tuple in list:
+            x, y = tuple
+            policeline = Tile(Vector2(x, y), policeline, True, "Line")
+        return policeline
+
+    def Landmarks(self, list):
+        landmarks = None
+        for tuple in list:
+            x, y = tuple
+            landmarks = Tile(Vector2(x, y), landmarks, True, "Landmark")
+        return landmarks
+
+    def Policetile(self, list):
+        policetiles = None
+        for tuple in list:
+            x, y = tuple
+            policetiles = Tile(Vector2(x, y), policetiles, True, "Police")
+        return policetiles
+
+    def Arenas(self, list):
+        arenas = None
+        for tuple in list:
+            x, y = tuple
+            arenas = Tile(Vector2(x, y), arenas, True, "Arena")
+        return arenas
+
+    def Kanskaarten(self, list):
+        kans = None
+        for tuple in list:
+            x, y = tuple
+            kans = Tile(Vector2(x, y), kans, True, "Kans")
+        return kans
+
+    def Whitetiles(self, list):
+        for y in range(0, 20):
+            for x in range(0, 32):
+                if (x > 2 and y == 0) or ((x > 2 and y == self.rows -1) and (x < self.colloms - 5 and y == self.rows - 1)):
+                    list.append((x, y))
+                elif x == 2 or (x == self.colloms - 1 and y < self.rows - 4) :
+                    list.append((x, y))
+        whitetiles = None
+        for tuple in list:
+            x, y = tuple
+            whitetiles = Tile(Vector2(x, y), whitetiles, True, "White")
+        return whitetiles
+
+
+    def drawboard(self, screen, cSize, rSize):
+        self.whitetiles.draw(screen, cSize, rSize)
+        self.policeline.draw(screen, cSize, rSize)
+        self.landmarks.draw(screen, cSize, rSize)
+        self.policetiles.draw(screen, cSize, rSize)
+        self.kans.draw(screen, cSize, rSize)
+        self.arenas.draw(screen, cSize, rSize)
+
+
+
 
     def draw(self, screen):
         cSize = self.width // self.colloms
         rSize = self.height // self.rows
-
-        self.board.draw(screen, cSize, rSize)
+        self.drawboard(screen, rSize, cSize)
+        self.player.draw(screen, rSize, cSize)
