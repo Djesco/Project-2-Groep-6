@@ -3,11 +3,11 @@ from options import Options
 
 class Main_menu:
 
-    def text_objects(text, font, color):
+    def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
 
-    def update(width, height, screen):
+    def update(self, screen, width, height):
         black = (0,0,0)
         white = (255,255,255)
         red = (175, 0 ,0)
@@ -19,13 +19,13 @@ class Main_menu:
         screen.fill(white)
         largeText = pygame.font.Font(None ,75)
         midText = pygame.font.Font(None, 37)
-        TitleText, TitleRect = Main_menu.text_objects("Ontsnapperdam", largeText, black)
+        TitleText, TitleRect = self.text_objects("Ontsnapperdam", largeText, black)
         TitleRect.center = ((width/2),(height/10))
-        StartText, StartRect = Main_menu.text_objects("Start", midText, black)
+        StartText, StartRect = self.text_objects("Start", midText, black)
         StartRect.center = ((width/2),(height/3))
-        ExitText, ExitRect = Main_menu.text_objects("Afsluiten", midText, black)
+        ExitText, ExitRect = self.text_objects("Afsluiten", midText, black)
         ExitRect.center = ((width/2),((height/3)*2))
-        OptionsText, OptionsRect = Main_menu.text_objects("Opties", midText, black)
+        OptionsText, OptionsRect = self.text_objects("Opties", midText, black)
         OptionsRect.center= ((width/2),(height/2))   
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed() == (1, 0, 0)
@@ -45,7 +45,8 @@ class Main_menu:
         if ((width/2) + 100) > mouse[0] > ((width/2) -100) and ((height/2) + 25) > mouse[1] > ((height/2) -25):
             pygame.draw.rect(screen, brigth_blue, (((width/2) - 100), ((height/2) -25), 200, 50))
             if click:
-                return Options.update(screen, width, height)
+                op = Options()
+                return op.update(screen, width, height)
         else:
             pygame.draw.rect(screen, blue, (((width/2) - 100), ((height/2) -25), 200, 50)) 
         screen.blit(TitleText, TitleRect)
@@ -54,3 +55,4 @@ class Main_menu:
         screen.blit(OptionsText, OptionsRect)        
         pygame.display.update()
         clock.tick(15)
+        return self
