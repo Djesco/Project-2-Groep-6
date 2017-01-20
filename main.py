@@ -21,3 +21,5 @@ def main():
                 exit()
         m = m.update(screen, width, height)   
 main()
+
+#6 afbeeldingen voor de dobbelsteen, randint bladert door de afbeeldingen enj returnd hoeveel je hebt gegooid
