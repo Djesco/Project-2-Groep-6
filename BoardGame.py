@@ -7,6 +7,7 @@ blue = (0, 0, 255)
 brown = (110, 60, 15)
 yellow = (255, 255, 0)
 green = (0, 255, 0)
+black = (0,0,0)
 
 kansimg = pygame.image.load('images/kans2.png')
 arenaimg = pygame.image.load('images/arena.png')
@@ -20,6 +21,7 @@ policesquares = [(7,6), (10,15), (16,0), (20,17), (28,4), (19,10)]
 arenas = [(5,19), (6,19), (7,19), (8,19), (9,19), (7,18), (10,11), (11,11), (12,11), (12,12), (15,13), (16,13), (15,14), (15,15), (15,16), (16,16), (9,2), (10,2), (10,3), (10,4), (10,5), (10,6), (9,6), (14,6), (15,6), (16,6), (17,6), (18,6), (19,6), (19,5), (14,5), (28,6), (29,6), (30,6), (31,6), (31,7), (31,8), (27, 13), (27,14), (27,15), (27,16), (28,16)]
 kanskaarten = [(2,5), (2,16), (4,9), (7,7), (7,13), (7,19), (9,17), (10,2), (10,6), (12,0), (12,4), (12,13), (13,8), (15,0), (15,16), (16,8), (17,3), (18,13), (19,6), (20,19), (22,8), (23,6), (23,13), (26,0), (26,6), (26,11), (27,16), (31,1), (31,9), (31,16)]
 powerups = [(16,2), (10,3), (17,6), (31, 8), (22,10), (10,11), (28,13), (18,17)]
+
 class Vector2:
     def __init__(self, x, y):
         self.x = x
@@ -31,48 +33,42 @@ class Vector2:
 class Tile:
     def __init__(self, pos: Vector2, traversable):
         self.pos = pos
-        self.type = type
         self.traversable = traversable
         self.arena = False
-        self.players = []
-
-    def addPlayer(self, player):
-        self.players.append(player)
+        self.police = False
+        self.kans = False
+        self.landmark = False
 
     def setArena(self, arena):
         self.arena = arena
 
-    def isTraverable(self):
+    def isTraversable(self):
         return self.traversable
-
-    def drawplayers(self, screen, cSize, rSize):
-        for i in range(len(self.players)):
-            self.players[i].draw(screen, cSize, rSize, i)
 
     def drawarenas(self, screen, cSize, rSize):
         if self.arena:
             screen.blit(pygame.transform.scale(arenaimg, (cSize - 2, rSize - 2)),(self.pos.x * cSize, (self.pos.y + 2) * rSize))
 
-            #insert image
-
 
 class Kans(Tile):
     def __init__(self, pos):
         super().__init__(pos, True)
+        self.kans = True
     def draw(self, screen, cSize, rSize):
         pygame.draw.rect(screen, white, [self.pos.x * cSize, (self.pos.y + 2) * rSize, cSize - 2, rSize - 2])
         screen.blit(pygame.transform.scale(kansimg, (cSize - 2, rSize - 2)),(self.pos.x * cSize, (self.pos.y + 2) * rSize))
 
-
 class Police(Tile):
     def __init__(self, pos):
         super().__init__(pos, True)
+        self.police = True
     def draw(self, screen, cSize, rSize):
         pygame.draw.rect(screen, blue, [self.pos.x * cSize, (self.pos.y + 2) * rSize, cSize - 2, rSize - 2])
 
 class Landmark(Tile):
     def __init__(self, pos):
         super().__init__(pos, True)
+        self.landmark = True
     def draw(self, screen, cSize, rSize):
         pygame.draw.rect(screen, brown, [self.pos.x * cSize, (self.pos.y + 2) * rSize, cSize - 2, rSize - 2])
 
@@ -88,9 +84,6 @@ class Nothing(Tile):
     def draw(self, screen, cSize, rSize):
         return
 
-
-
-
 class Player:
     def __init__(self, pos, img):
         self.pos = pos
@@ -98,8 +91,8 @@ class Player:
     def draw(self, screen, cSize, rSize, voffset):
         pygame.draw.circle(screen, self.img, [int(self.pos.x * cSize + cSize * 0.5 ),int((self.pos.y+2) * rSize + rSize * 0.5 ) + voffset], int(0.3 * cSize), 0)
 
-class Game:
 
+class Game:
     def __init__(self, cols, rows, width, height, playeramount):
         self.columns = cols
         self.rows = rows
@@ -110,13 +103,7 @@ class Game:
         self.board = self.Createboard()
         self.turn = 0
         self.cooldown = 0.5
-        self.turnsleft = 3
-        # self.policeline = line
-        # self.arenas = arenas
-        # self.kans = kanskaarten
-        # self.landmarks = landmarks
-        # self.policetiles = policesquares
-        # self.whitetiles = whitetiles
+        self.dice = 5000000
 
     def Createplayers(self, playeramount):
         playerlist = []
@@ -132,48 +119,55 @@ class Game:
                 if (x, y) in landmarks:
                     board[x,y] = Landmark(Vector2(x,y))
                 elif (x, y) in kanskaarten:
-                    board[x,y] = Kans(Vector2(x, y))
+                    board[x,y] = Kans(Vector2(x,y))
                 elif (x, y) in policesquares:
-                    board[x,y] = Police(Vector2(x, y))
+                    board[x,y] = Police(Vector2(x,y))
                 elif (x, y) in whitetiles:
-                    board[x,y] = White(Vector2(x, y))
+                    board[x,y] = White(Vector2(x,y))
                 else:
-                    board[x,y] = Nothing(Vector2(x, y))
-                # elif (x, y) in arenas:
-                #     board[x][y] = Arena(Vector2(x, y))
-
+                    board[x,y] = Nothing(Vector2(x,y))
                 if (x, y) in arenas:
                     board[x,y].setArena(True)
 
-        for i in range(len(self.players)):
-            board[self.players[i].pos.x,self.players[i].pos.y].addPlayer(self.players[i])
         return board
-
-    def changeturn(self):
-        self.turn = (self.turn + 1) % self.playeramount
-        self.turnsleft = 3
-        print("Player {} turn".format(self.turn+1))
-    def update(self, screen, event, dt):
-        keys = pygame.key.get_pressed()
-        self.cooldown = self.cooldown - dt
-        print(self.turnsleft)
-        if self.turnsleft == 0:
-            self.changeturn()
-        if self.cooldown < 0.0:
-            if keys[pygame.K_UP]:
+    def MoveDirection(self, key, player):
+        if key[pygame.K_UP]:
+            if self.gettile(player.pos.x, player.pos.y-1).isTraversable():
                 self.players[self.turn].pos.y -= 1
                 self.cooldown = 0.5
-                self.turnsleft -= 1
-            elif keys[pygame.K_DOWN]:
+                self.dice -= 1
+        elif key[pygame.K_DOWN]:
+            if self.gettile(player.pos.x, player.pos.y + 1).isTraversable():
                 self.players[self.turn].pos.y += 1
                 self.cooldown = 0.5
-            elif keys[pygame.K_RIGHT]:
+                self.dice -= 1
+        elif key[pygame.K_RIGHT]:
+            if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable():
                 self.players[self.turn].pos.x += 1
                 self.cooldown = 0.5
-            elif keys[pygame.K_LEFT]:
+                self.dice -= 1
+        elif key[pygame.K_LEFT]:
+            if self.gettile(player.pos.x-1, player.pos.y).isTraversable():
                 self.players[self.turn].pos.x -= 1
                 self.cooldown = 0.5
-
+                self.dice -= 1
+    def changeturn(self):
+        self.turn = (self.turn + 1) % self.playeramount
+        print("Player {} turn".format(self.turn + 1))
+        self.dice = 6
+    def gettile(self, x, y):
+        return self.board[x, y]
+    def update(self, screen, event, dt):
+        player = self.players[self.turn]
+        keys = pygame.key.get_pressed()
+        self.cooldown = self.cooldown - dt
+        if self.dice == 0:
+            tile = self.gettile(player.pos.x, player.pos.y)
+            if tile.kans:
+                print("Kanskaart San")
+            self.changeturn()
+        if self.cooldown < 0.0:
+            self.MoveDirection(keys, player)
         self.draw(screen)
 
     def drawplayers(self, screen, cSize, rSize):
