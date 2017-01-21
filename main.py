@@ -16,6 +16,7 @@ def main():
     pygame.mixer.music.set_volume(0.2)
     m = Main_menu()
     while True:
+        clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()

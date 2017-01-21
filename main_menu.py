@@ -1,5 +1,6 @@
 import pygame
 from options import Options
+from tutorial import Tutorial
 
 class Main_menu:
 
@@ -21,19 +22,19 @@ class Main_menu:
         midText = pygame.font.Font(None, 37)
         TitleText, TitleRect = self.text_objects("Ontsnapperdam", largeText, black)
         TitleRect.center = ((width/2),(height/10))
-        StartText, StartRect = self.text_objects("Start", midText, black)
+        StartText, StartRect = self.text_objects("Start", midText, white)
         StartRect.center = ((width/2),(height/3))
-        ExitText, ExitRect = self.text_objects("Afsluiten", midText, black)
+        ExitText, ExitRect = self.text_objects("Afsluiten", midText, white)
         ExitRect.center = ((width/2),((height/3)*2))
-        OptionsText, OptionsRect = self.text_objects("Opties", midText, black)
+        OptionsText, OptionsRect = self.text_objects("Opties", midText, white)
         OptionsRect.center= ((width/2),(height/2))   
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed() == (1, 0, 0)
-        clock = pygame.time.Clock()
         if ((width/2) + 100) > mouse[0] > ((width/2) - 100) and ((height/3) + 25) > mouse[1] > ((height/3) - 25):
             pygame.draw.rect(screen, brigth_green, (((width/2) - 100), ((height/3) - 25), 200, 50))
             if click:
-                print("yeay")
+                tut = Tutorial()
+                return tut.update(screen, width, height)
         else:
             pygame.draw.rect(screen, green, (((width/2) - 100), ((height/3) - 25), 200, 50))
         if ((width/2) + 100) > mouse[0] > ((width/2) -100) and (((height/3) * 2) + 25) > mouse[1] > (((height/3) * 2) - 25):
@@ -54,5 +55,4 @@ class Main_menu:
         screen.blit(ExitText, ExitRect)
         screen.blit(OptionsText, OptionsRect)        
         pygame.display.update()
-        clock.tick(15)
         return self

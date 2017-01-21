@@ -26,25 +26,25 @@ class Options:
         screen.fill(white)
         TitleText, TitleRect = self.text_objects("Opties", largeText, black)
         TitleRect.center = ((width/2),(height/10))
-        BackText, BackRect = self.text_objects("< Terug", midText, black)
-        BackRect.center = ((width - 62.5), 25)
-        VolumeText, VolumeRect = self.text_objects("Muziek", midText, black)
+        BackText, BackRect = self.text_objects("< Terug", midText, white)
+        BackRect.center = (62.5, 25)
+        VolumeText, VolumeRect = self.text_objects("Muziek", midText, white)
         VolumeRect.center = (((width/2) - 100), (height/3))
-        AanText, AanRect = self.text_objects("Aan", smallText, black)
+        AanText, AanRect = self.text_objects("Aan", smallText, white)
         AanRect.center = (((width/2) + 60), (height/3))
-        UitText, UitRect = self.text_objects("Uit", smallText, black)
+        UitText, UitRect = self.text_objects("Uit", smallText, white)
         UitRect.center = (((width/2) + 117.5), (height/3))
         pygame.draw.rect(screen, blue, (((width/2) - 150), ((height/3) - 25), 300, 50))
         pygame.draw.rect(screen, red, (((width/2) + 92.5), ((height/3) - 15), 50, 30))
         pygame.draw.rect(screen, green, (((width/2) + 35), ((height/3) - 15), 50, 30))
-        if (width) > mouse[0] > (width - 100) and (50 > mouse[1] > 0):
-            pygame.draw.rect(screen, bright_red, ((width - 125), 0, 125, 50))
+        if 125 > mouse[0] > 0 and (50 > mouse[1] > 0):
+            pygame.draw.rect(screen, bright_red, (0, 0, 125, 50))
             if click:
                 from main_menu import Main_menu
                 m = Main_menu()
                 return m.update(screen, width, height)
         else:
-            pygame.draw.rect(screen, red, ((width - 125), 0, 125, 50))
+            pygame.draw.rect(screen, red, (0, 0, 125, 50))
         if ((width/2) + 142.5) > mouse[0] > ((width/2) + 92.5) and ((height/3) + 15) > mouse[1] > ((height/3) - 15):
             pygame.draw.rect(screen, bright_red, (((width/2) + 92.5), ((height/3) - 15), 50, 30))
             if click:
