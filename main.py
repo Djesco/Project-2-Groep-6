@@ -1,26 +1,34 @@
 import pygame
 import time
 import random
+import colors
+from BoardGame import Game
 from main_menu import Main_menu 
 pygame.init()
  
 width = 1280
 height = 720
+grid = colloms, rows = 32, 24
 screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("Ontsnapperdam")
 clock = pygame.time.Clock()
-
+game = Game(colloms, rows, width, height, 6)
+dt = clock.tick(60)
 def main():
     pygame.mixer.music.load("menu music.mp3")
     pygame.mixer.music.play(loops = 999, start = 0.0)
     pygame.mixer.music.set_volume(0.2)
     m = Main_menu()
     while True:
-        clock.tick(60)
+        dt = clock.tick(60)/1000
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
-        m = m.update(screen, width, height)   
+        # m = m.update(screen, width, height)
+        screen.fill(colors.black())
+        game.update(screen, event, dt)
+
+        pygame.display.flip()
 main()
 
 #6 afbeeldingen voor de dobbelsteen, randint bladert door de afbeeldingen enj returnd hoeveel je hebt gegooid

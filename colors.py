@@ -1,6 +1,7 @@
 # RGB Color Definitions
 # By: Wesley van Schaijk
 # Designed for pygame
+import random
 
 def black(): return 0, 0, 0
 def white(): return 255, 255, 255
@@ -26,3 +27,4 @@ def light_grey(): return 200, 200, 200
 def dark_grey(): return 100, 100, 100
 def yellow(): return 255, 255, 0
 def brown(): return 110, 80, 16
+def randomcolor(): return random.randint(0,255), random.randint(0,255), random.randint(0,255)
