@@ -89,7 +89,7 @@ class Game:
         print("You threw " + str(throw))
         self.turnstart = False
 
-    def update(self, screen, width, height, events, dt):
+    def update(self, screen, events, dt):
         self.player = self.players[self.turn]
         if self.turnstart:
             self.dice()
@@ -122,8 +122,8 @@ class Game:
                 self.players[i].draw(screen, cSize, rSize, 0)
 
     def drawboard(self, screen, cSize, rSize):
-        for y in range(self.rows):
-            for x in range(self.columns):
+        for x in range(self.columns):
+            for y in range(self.rows):
                 self.board[x,y].draw(screen, cSize, rSize)
                 self.board[x,y].drawarenas(screen, cSize, rSize)
 
@@ -133,5 +133,5 @@ class Game:
     def draw(self, screen):
         screen.fill(black)
         cSize = self.width // self.columns
-        rSize = self.height // self.rows
-        self.drawboard(screen, rSize, cSize)
+        rSize = self.height // (self.rows + 2)
+        self.drawboard(screen, cSize, rSize)
