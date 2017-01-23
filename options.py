@@ -10,7 +10,7 @@ class Options:
         pygame.mixer.music.play(loops = 999, start = 0.0)
         pygame.mixer.music.set_volume(0.2)
 
-    def update(self, screen, width, height):
+    def update(self, screen, width, height, events):
         white = (255, 255, 255)
         black = (0, 0 , 0)
         blue = (0, 0, 175)
@@ -18,8 +18,8 @@ class Options:
         green = (0, 175, 0)
         bright_red = (255,0,0)
         bright_green = (0, 255, 0)
-        mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed() == (1, 0, 0)
+        mouse = pygame.mouse.get_pos()
         largeText = pygame.font.Font(None ,75)
         midText = pygame.font.Font(None, 37)
         smallText = pygame.font.Font(None, 25)
@@ -34,25 +34,30 @@ class Options:
         AanRect.center = (((width/2) + 60), (height/3))
         UitText, UitRect = self.text_objects("Uit", smallText, white)
         UitRect.center = (((width/2) + 117.5), (height/3))
-        pygame.draw.rect(screen, blue, (((width/2) - 150), ((height/3) - 25), 300, 50))
-        pygame.draw.rect(screen, red, (((width/2) + 92.5), ((height/3) - 15), 50, 30))
-        pygame.draw.rect(screen, green, (((width/2) + 35), ((height/3) - 15), 50, 30))
+        pygame.draw.rect(screen, blue, (((width/2) - 150), ((height/3) - 25), 300, 50))        
         if 125 > mouse[0] > 0 and (50 > mouse[1] > 0):
             pygame.draw.rect(screen, bright_red, (0, 0, 125, 50))
-            if click:
-                from main_menu import Main_menu
-                m = Main_menu()
-                return m.update(screen, width, height)
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    from main_menu import Main_menu
+                    m = Main_menu()
+                    return m
         else:
             pygame.draw.rect(screen, red, (0, 0, 125, 50))
         if ((width/2) + 142.5) > mouse[0] > ((width/2) + 92.5) and ((height/3) + 15) > mouse[1] > ((height/3) - 15):
             pygame.draw.rect(screen, bright_red, (((width/2) + 92.5), ((height/3) - 15), 50, 30))
-            if click:
-                pygame.mixer.music.pause()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pygame.mixer.music.pause()
+        else:
+            pygame.draw.rect(screen, red, (((width/2) + 92.5), ((height/3) - 15), 50, 30))
         if ((width/2) + 85) > mouse[0] > ((width/2) + 35) and ((height/3) + 15) > mouse[1] > ((height/3) - 15):
             pygame.draw.rect(screen, bright_green, (((width/2) + 35), ((height/3) - 15), 50, 30))
-            if click:
-                self.play_music()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.play_music()
+        else:
+            pygame.draw.rect(screen, green, (((width/2) + 35), ((height/3) - 15), 50, 30))
         screen.blit(TitleText, TitleRect)
         screen.blit(BackText, BackRect)
         screen.blit(VolumeText, VolumeRect)   

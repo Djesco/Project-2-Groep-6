@@ -14,19 +14,21 @@ pygame.display.set_caption("Ontsnapperdam")
 clock = pygame.time.Clock()
 game = Game(colloms, rows, width, height, 4)
 dt = clock.tick(60)
+
 def main():
-    # pygame.mixer.music.load("menu music.mp3")
-    # pygame.mixer.music.play(loops = 999, start = 0.0)
-    # pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.load("menu music.mp3")
+    pygame.mixer.music.play(loops = 999, start = 0.0)
+    pygame.mixer.music.set_volume(0.2)
     m = Main_menu()
     while True:
         dt = clock.tick(60)/1000
-        for event in pygame.event.get():
+        events = pygame.event.get()
+        for event in events:
             if event.type == pygame.QUIT:
                 exit()
-        # m = m.update(screen, width, height)
-        screen.fill(colors.black())
-        game.update(screen, event, dt)
+        m = m.update(screen, width, height, events)
+        #screen.fill(colors.black())
+        #game.update(screen, event, dt)
 
         pygame.display.flip()
 main()

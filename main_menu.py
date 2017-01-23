@@ -8,7 +8,7 @@ class Main_menu:
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
 
-    def update(self, screen, width, height):
+    def update(self, screen, width, height, events):
         black = (0,0,0)
         white = (255,255,255)
         red = (175, 0 ,0)
@@ -32,22 +32,25 @@ class Main_menu:
         click = pygame.mouse.get_pressed() == (1, 0, 0)
         if ((width/2) + 100) > mouse[0] > ((width/2) - 100) and ((height/3) + 25) > mouse[1] > ((height/3) - 25):
             pygame.draw.rect(screen, brigth_green, (((width/2) - 100), ((height/3) - 25), 200, 50))
-            if click:
-                tut = Tutorial()
-                return tut.update(screen, width, height)
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    tut = Tutorial()
+                    return tut
         else:
             pygame.draw.rect(screen, green, (((width/2) - 100), ((height/3) - 25), 200, 50))
         if ((width/2) + 100) > mouse[0] > ((width/2) -100) and (((height/3) * 2) + 25) > mouse[1] > (((height/3) * 2) - 25):
             pygame.draw.rect(screen, brigth_red, (((width/2) - 100), (((height/3) * 2) - 25), 200, 50))
-            if click:
-                exit()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    exit()
         else:
             pygame.draw.rect(screen, red, (((width/2) - 100), (((height/3) * 2) - 25), 200, 50))
         if ((width/2) + 100) > mouse[0] > ((width/2) -100) and ((height/2) + 25) > mouse[1] > ((height/2) -25):
             pygame.draw.rect(screen, brigth_blue, (((width/2) - 100), ((height/2) -25), 200, 50))
-            if click:
-                op = Options()
-                return op.update(screen, width, height)
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    op = Options()
+                    return op
         else:
             pygame.draw.rect(screen, blue, (((width/2) - 100), ((height/2) -25), 200, 50)) 
         screen.blit(TitleText, TitleRect)
