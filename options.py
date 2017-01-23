@@ -10,7 +10,7 @@ class Options:
         pygame.mixer.music.play(loops = 999, start = 0.0)
         pygame.mixer.music.set_volume(0.2)
 
-    def update(self, screen, width, height, events):
+    def update(self, screen, width, height, events, dt):
         white = (255, 255, 255)
         black = (0, 0 , 0)
         blue = (0, 0, 175)

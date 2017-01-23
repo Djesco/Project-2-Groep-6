@@ -89,7 +89,7 @@ class Game:
         print("You threw " + str(throw))
         self.turnstart = False
 
-    def update(self, screen, event, dt):
+    def update(self, screen, width, height, events, dt):
         self.player = self.players[self.turn]
         if self.turnstart:
             self.dice()
@@ -109,6 +109,8 @@ class Game:
             self.MoveDirection(keys, self.player)
 
         self.draw(screen)
+        pygame.display.update()
+        return self
 
     def drawplayers(self, screen, cSize, rSize):
         for i in range(self.playeramount):
@@ -129,6 +131,7 @@ class Game:
         self.board[starttile].drawprison(screen, cSize, rSize)
 
     def draw(self, screen):
+        screen.fill(black)
         cSize = self.width // self.columns
         rSize = self.height // self.rows
         self.drawboard(screen, rSize, cSize)

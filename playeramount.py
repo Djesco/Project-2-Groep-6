@@ -1,11 +1,13 @@
 import pygame
+from Game import Game
 
 class Player_select:
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
 
-    def update(self, screen, width, height, events):
+    def update(self, screen, width, height, events, dt):
+        grid = colloms, rows = 32, 21
         white = (255, 255, 255)
         black = (0, 0, 0)
         red  = (175, 0 ,0)
@@ -46,6 +48,8 @@ class Player_select:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print("you chose 3 players")
+                    game  = Game(colloms, rows, width, height, 4)
+                    return game
         else:
             pygame.draw.rect(screen, red, (((width/2) - 100), (((height/6) * 2) - 25), 200, 50))
         if ((width/2) + 100) > mouse[0] > ((width/2) - 100) and (((height/6) * 3) + 25) > mouse[1] > (((height/6) * 3) - 25):

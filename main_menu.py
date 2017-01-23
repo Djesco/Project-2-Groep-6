@@ -8,7 +8,7 @@ class Main_menu:
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
 
-    def update(self, screen, width, height, events):
+    def update(self, screen, width, height, events, dt):
         black = (0,0,0)
         white = (255,255,255)
         red = (175, 0 ,0)

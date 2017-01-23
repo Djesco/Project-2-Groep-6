@@ -8,11 +8,9 @@ pygame.init()
  
 width = 1280
 height = 720
-grid = colloms, rows = 32, 24
 screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("Ontsnapperdam")
 clock = pygame.time.Clock()
-game = Game(colloms, rows, width, height, 4)
 dt = clock.tick(60)
 
 def main():
@@ -26,7 +24,7 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 exit()
-        m = m.update(screen, width, height, events)
+        m = m.update(screen, width, height, events, dt)
         #screen.fill(colors.black())
         #game.update(screen, event, dt)
 
