@@ -123,11 +123,15 @@ class Game:
         mouse = pygame.mouse.get_pos()
         SkipText, SkipRect = self.text_objects("Menu", midText, white)
         SkipRect.center = ((width - 100), 25)
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    p = Pause_menu()
+                    return p
         if width > mouse[0] > (width - 200) and 50 > mouse[1] > 0:
             pygame.draw.rect(screen, bright_red, ((width - 200), 0, 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    from playeramount import Player_select
                     p = Pause_menu()
                     return p
         else:
