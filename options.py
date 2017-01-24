@@ -18,7 +18,6 @@ class Options:
         green = (0, 175, 0)
         bright_red = (255,0,0)
         bright_green = (0, 255, 0)
-        click = pygame.mouse.get_pressed() == (1, 0, 0)
         mouse = pygame.mouse.get_pos()
         largeText = pygame.font.Font(None ,75)
         midText = pygame.font.Font(None, 37)
