@@ -29,7 +29,6 @@ class Tutorial:
         PrevText, PrevRect = self.text_objects("< Vorige", smallText, black)
         PrevRect.center = (50, (height - 25))
         mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed() == (1, 0, 0)
         if 125 > mouse[0] > 0 and (50 > mouse[1] > 0):
             pygame.draw.rect(screen, bright_red, (0, 0, 125, 50))
             for event in events:
@@ -71,4 +70,3 @@ class Tutorial:
         screen.blit(PrevText, PrevRect)
         pygame.display.update()
         return self
-#sws tutorial laden maar voeg skip button toe die je naar de game smijt

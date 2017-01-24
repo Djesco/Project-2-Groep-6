@@ -1,5 +1,6 @@
 import pygame
 import random
+from pause_menu import Pause_menu #ook nieuw
 from Board import *
 from Player import *
 
@@ -17,11 +18,15 @@ class Game:
         self.turnstart = True
         self.walk = 5000000
 
+    def text_objects(self, text, font, color):
+        textSurface = font.render(text, True, color)
+        return textSurface, textSurface.get_rect()
+
     def Createplayers(self, playeramount):
         playerlist = []
         for i in range(playeramount):
             x, y = starttile
-            playerlist.append(Player(Vector2(x, y), playercolors[i]))
+            playerlist.append(Player(Vector2(x, y), colors.randomcolor()))
         return playerlist
 
     def Createboard(self):
@@ -89,7 +94,7 @@ class Game:
         print("You threw " + str(throw))
         self.turnstart = False
 
-    def update(self, screen, events, dt):
+    def update(self, screen, width, height, events, dt):
         self.player = self.players[self.turn]
         if self.turnstart:
             self.dice()
@@ -107,6 +112,28 @@ class Game:
             self.MoveDirection(keys, self.player)
 
         self.draw(screen)
+        # menu balk in game start
+        red = (175, 0, 0)
+        bright_red = (255, 0, 0)
+        blue = (0, 0, 175)
+        bright_blue = (0, 0, 255)
+        largeText = pygame.font.Font(None ,75)
+        midText = pygame.font.Font(None, 37)
+        smallText = pygame.font.Font(None, 25)
+        mouse = pygame.mouse.get_pos()
+        SkipText, SkipRect = self.text_objects("Menu", midText, white)
+        SkipRect.center = ((width - 100), 25)
+        if width > mouse[0] > (width - 200) and 50 > mouse[1] > 0:
+            pygame.draw.rect(screen, bright_red, ((width - 200), 0, 200, 50))
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    from playeramount import Player_select
+                    p = Pause_menu()
+                    return p
+        else:
+            pygame.draw.rect(screen, red, ((width - 200), 0, 200, 50))
+        screen.blit(SkipText, SkipRect)
+        # menu balk in game eind
         pygame.display.update()
         return self
 
@@ -115,7 +142,7 @@ class Game:
             if self.board[self.players[i].pos.x, self.players[i].pos.y].start:
                 self.players[i].draw(screen, cSize, rSize, ((i -3) * rSize))
             elif self.players[i].is_in(lambda x: x.is_same(self.players[i].pos), self.players[i+1:]):
-                self.players[i].draw(screen, cSize, rSize, (((self.playeramount) - i) * (cSize//18)))
+                self.players[i].draw(screen, cSize, rSize, ((self.playeramount - i) * (cSize//18)))
             else:
                 self.players[i].draw(screen, cSize, rSize, 0)
 
@@ -130,7 +157,12 @@ class Game:
     def draw(self, screen):
         screen.fill(black)
         cSize = self.width // self.columns
+<<<<<<< HEAD
         rSize = self.height // (self.rows+2)
         self.drawboard(screen, cSize, rSize)
         self.drawplayers(screen, cSize, rSize)
         self.board[starttile].drawprison(screen, cSize, rSize)
+=======
+        rSize = self.height // (self.rows + 2)
+        self.drawboard(screen, cSize, rSize)
+>>>>>>> origin/master
