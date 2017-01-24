@@ -1,4 +1,6 @@
 import pygame
+import colors
+playercolors = [colors.red(), colors.blue(), colors.green(), colors.yellow(), colors.purple(), colors.orange()]
 class Player:
     def __init__(self, pos, img):
         self.pos = pos

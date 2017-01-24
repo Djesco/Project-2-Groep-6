@@ -21,7 +21,7 @@ class Game:
         playerlist = []
         for i in range(playeramount):
             x, y = starttile
-            playerlist.append(Player(Vector2(x, y), colors.randomcolor()))
+            playerlist.append(Player(Vector2(x, y), playercolors[i]))
         return playerlist
 
     def Createboard(self):
@@ -117,7 +117,7 @@ class Game:
             if self.board[self.players[i].pos.x, self.players[i].pos.y].start:
                 self.players[i].draw(screen, cSize, rSize, ((i -3) * rSize))
             elif self.players[i].is_in(lambda x: x.is_same(self.players[i].pos), self.players[i+1:]):
-                self.players[i].draw(screen, cSize, rSize, ((self.playeramount - i) * (cSize//18)))
+                self.players[i].draw(screen, cSize, rSize, (((self.playeramount) - i) * (cSize//18)))
             else:
                 self.players[i].draw(screen, cSize, rSize, 0)
 
@@ -133,5 +133,5 @@ class Game:
     def draw(self, screen):
         screen.fill(black)
         cSize = self.width // self.columns
-        rSize = self.height // (self.rows + 2)
+        rSize = self.height // (self.rows)
         self.drawboard(screen, cSize, rSize)
