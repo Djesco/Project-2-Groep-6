@@ -38,7 +38,6 @@ class Game:
                     board[x, self.rows] = Nothing(Vector2(x, y))
                 if (x, y) == (0,10):
                     board[x, y] = Starttile(Vector2(x, y))
-
                 elif (x, y) in landmarks:
                     board[x,y] = Landmark(Vector2(x,y))
                 elif (x, y) in kanskaarten:
@@ -51,6 +50,8 @@ class Game:
                     board[x,y] = Nothing(Vector2(x,y))
                 if (x, y) in arenas:
                     board[x,y].setArena(True)
+                if (x,y) in line:
+                    board[x,y].setPoliceline(True)
         return board
 
     def MoveDirection(self, key, player):
@@ -78,7 +79,6 @@ class Game:
     def changeturn(self):
         self.turn = (self.turn + 1) % self.playeramount
 
-
     def gettile(self, x, y):
         return self.board[x, y]
 
@@ -98,8 +98,6 @@ class Game:
             tile = self.gettile(self.player.pos.x, self.player.pos.y)
             if tile.kans:
                 print("Kanskaart San")
-
-
             self.turnstart = True
             self.changeturn()
 
@@ -125,13 +123,14 @@ class Game:
         for x in range(self.columns):
             for y in range(self.rows):
                 self.board[x,y].draw(screen, cSize, rSize)
+                self.board[x,y].drawpoliceline(screen, cSize, rSize)
                 self.board[x,y].drawarenas(screen, cSize, rSize)
 
-        self.drawplayers(screen, cSize, rSize)
-        self.board[starttile].drawprison(screen, cSize, rSize)
 
     def draw(self, screen):
         screen.fill(black)
         cSize = self.width // self.columns
-        rSize = self.height // (self.rows)
+        rSize = self.height // (self.rows+2)
         self.drawboard(screen, cSize, rSize)
+        self.drawplayers(screen, cSize, rSize)
+        self.board[starttile].drawprison(screen, cSize, rSize)

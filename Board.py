@@ -12,6 +12,8 @@ black = (0,0,0)
 kansimg = pygame.image.load('images/kans2.png')
 arenaimg = pygame.image.load('images/arena.png')
 jailimg = pygame.image.load('images/jail.png')
+plineimg = pygame.image.load('images/politievaktrans.png')
+pimg = pygame.image.load('images/police.png')
 #lists
 starttile = (0,10)
 rotterdamc = [(2,8), (2,9), (2,10), (2,11)]
@@ -36,19 +38,24 @@ class Tile:
         self.pos = pos
         self.traversable = traversable
         self.arena = False
+        self.policeline = False
         self.police = False
         self.kans = False
         self.landmark = False
         self.start = False
     def setArena(self, arena):
         self.arena = arena
-
+    def setPoliceline(self, policeline):
+        self.policeline = policeline
     def isTraversable(self):
         return self.traversable
 
     def drawarenas(self, screen, cSize, rSize):
         if self.arena:
             screen.blit(pygame.transform.scale(arenaimg, (cSize - 2, rSize - 2)),(self.pos.x * cSize, (self.pos.y + 2) * rSize))
+    def drawpoliceline(self,screen, cSize, rSize):
+        if self.policeline:
+            screen.blit(pygame.transform.scale(plineimg, (cSize-2, rSize- 2)),(self.pos.x * cSize, (self.pos.y + 2) * rSize))
     def drawprison(self, screen, cSize, rSize):
         if self.start:
             screen.blit(pygame.transform.scale(jailimg, (cSize - 2, rSize * 6)),(self.pos.x * cSize, (self.pos.y - 1) * rSize))
@@ -59,7 +66,6 @@ class Starttile(Tile):
         self.start = True
     def draw(self, screen, cSize, rSize):
         pygame.draw.rect(screen, colors.dark_grey(), [self.pos.x * cSize, (self.pos.y -1) * rSize, cSize - 2, rSize *6])
-
 
 class Kans(Tile):
     def __init__(self, pos):
@@ -74,7 +80,9 @@ class Police(Tile):
         super().__init__(pos, True)
         self.police = True
     def draw(self, screen, cSize, rSize):
-        pygame.draw.rect(screen, blue, [self.pos.x * cSize, (self.pos.y + 2) * rSize, cSize - 2, rSize - 2])
+        pygame.draw.rect(screen, white, [self.pos.x * cSize, (self.pos.y + 2) * rSize, cSize - 2, rSize - 2])
+        screen.blit(pygame.transform.scale(pimg, (cSize - 2, rSize - 2)),(self.pos.x * cSize, (self.pos.y + 2) * rSize))
+
 
 class Landmark(Tile):
     def __init__(self, pos):
