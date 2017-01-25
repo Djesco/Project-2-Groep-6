@@ -16,7 +16,7 @@ class Game:
         self.turn = 0
         self.cooldown = 0.5
         self.turnstart = True
-        self.moves = 5000000
+        self.walk = 5000000
 
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
@@ -43,6 +43,7 @@ class Game:
                     board[x, self.rows] = Nothing(Vector2(x, y))
                 if (x, y) == (0,10):
                     board[x, y] = Starttile(Vector2(x, y))
+
                 elif (x, y) in landmarks:
                     board[x,y] = Landmark(Vector2(x,y))
                 elif (x, y) in kanskaarten:
@@ -55,39 +56,33 @@ class Game:
                     board[x,y] = Nothing(Vector2(x,y))
                 if (x, y) in arenas:
                     board[x,y].setArena(True)
-                if (x,y) in line:
-                    board[x,y].setPoliceline(True)
         return board
 
-    def MoveDirection(self,player, dt):
-        key = pygame.key.get_pressed()
-        self.cooldown = self.cooldown - dt
-        if self.cooldown < 0.0:
-            if key[pygame.K_UP]:
-                if self.gettile(player.pos.x, player.pos.y-1).isTraversable():
-                    self.players[self.turn].pos.y -= 1
-                    self.cooldown = 0.5
-                    self.moves -= 1
-            elif key[pygame.K_DOWN]:
-                if self.gettile(player.pos.x, player.pos.y + 1).isTraversable():
-                    self.players[self.turn].pos.y += 1
-                    self.cooldown = 0.5
-                    self.moves -= 1
-            elif key[pygame.K_RIGHT]:
-                if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable():
-                    self.players[self.turn].pos.x += 1
-                    self.cooldown = 0.5
-                    self.moves -= 1
-            elif key[pygame.K_LEFT]:
-                if self.gettile(player.pos.x-1, player.pos.y).isTraversable():
-                    self.players[self.turn].pos.x -= 1
-                    self.cooldown = 0.5
-                    self.moves-= 1
+    def MoveDirection(self, key, player):
+        if key[pygame.K_UP]:
+            if self.gettile(player.pos.x, player.pos.y-1).isTraversable():
+                self.players[self.turn].pos.y -= 1
+                self.cooldown = 0.5
+                self.walk -= 1
+        elif key[pygame.K_DOWN]:
+            if self.gettile(player.pos.x, player.pos.y + 1).isTraversable():
+                self.players[self.turn].pos.y += 1
+                self.cooldown = 0.5
+                self.walk -= 1
+        elif key[pygame.K_RIGHT]:
+            if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable():
+                self.players[self.turn].pos.x += 1
+                self.cooldown = 0.5
+                self.walk -= 1
+        elif key[pygame.K_LEFT]:
+            if self.gettile(player.pos.x-1, player.pos.y).isTraversable():
+                self.players[self.turn].pos.x -= 1
+                self.cooldown = 0.5
+                self.walk -= 1
 
     def changeturn(self):
-        if self.moves == 0:
-            self.turnstart = True
-            self.turn = (self.turn + 1) % self.playeramount
+        self.turn = (self.turn + 1) % self.playeramount
+
 
     def gettile(self, x, y):
         return self.board[x, y]
@@ -95,18 +90,30 @@ class Game:
     def dice(self):
         print("Player {} turn".format(self.turn + 1))
         throw = random.randint(1, 6)
-        self.moves = throw
+        self.walk = throw
         print("You threw " + str(throw))
         self.turnstart = False
 
     def update(self, screen, width, height, events, dt):
         self.player = self.players[self.turn]
-        self.dice()
-        self.MoveDirection(self.player, dt)
-        self.changeturn()
+        if self.turnstart:
+            self.dice()
+
+        if self.walk == 0:
+            tile = self.gettile(self.player.pos.x, self.player.pos.y)
+            if tile.kans:
+                print("Kanskaart San")
+
+
+            self.turnstart = True
+            self.changeturn()
+
+        keys = pygame.key.get_pressed()
+        self.cooldown = self.cooldown - dt
+        if self.cooldown < 0.0:
+            self.MoveDirection(keys, self.player)
+
         self.draw(screen)
-
-
         # menu balk in game start
         red = (175, 0, 0)
         bright_red = (255, 0, 0)
@@ -121,13 +128,13 @@ class Game:
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    p = Pause_menu()
+                    p = Pause_menu(self)
                     return p
         if width > mouse[0] > (width - 200) and 50 > mouse[1] > 0:
             pygame.draw.rect(screen, bright_red, ((width - 200), 0, 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    p = Pause_menu()
+                    p = Pause_menu(self)
                     return p
         else:
             pygame.draw.rect(screen, red, ((width - 200), 0, 200, 50))
@@ -149,14 +156,13 @@ class Game:
         for x in range(self.columns):
             for y in range(self.rows):
                 self.board[x,y].draw(screen, cSize, rSize)
-                self.board[x,y].drawpoliceline(screen, cSize, rSize)
                 self.board[x,y].drawarenas(screen, cSize, rSize)
 
+        self.drawplayers(screen, cSize, rSize)
+        self.board[starttile].drawprison(screen, cSize, rSize)
 
     def draw(self, screen):
         screen.fill(black)
         cSize = self.width // self.columns
-        rSize = self.height // (self.rows+2)
+        rSize = self.height // (self.rows + 2)
         self.drawboard(screen, cSize, rSize)
-        self.drawplayers(screen, cSize, rSize)
-        self.board[starttile].drawprison(screen, cSize, rSize)

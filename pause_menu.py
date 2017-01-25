@@ -2,6 +2,9 @@ import pygame
 from main_menu import Main_menu
 
 class Pause_menu:
+    def __init__(self, previous_screen):
+        self.prevscr = previous_screen
+
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
@@ -32,8 +35,7 @@ class Pause_menu:
             pygame.draw.rect(screen, brigth_green, (((width/2) - 150), ((height/3) - 25), 300, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    from Game import Game
-                    Game.update(self, screen, width, height, events, dt)
+                    return self.prevscr
         else:
             pygame.draw.rect(screen, green, (((width/2) - 150), ((height/3) - 25), 300, 50))
         if ((width/2) + 150) > mouse[0] > ((width/2) -150) and (((height/3) * 2) + 25) > mouse[1] > (((height/3) * 2) - 25):
