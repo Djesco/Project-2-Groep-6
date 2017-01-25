@@ -16,7 +16,7 @@ class Game:
         self.turn = 0
         self.cooldown = 0.5
         self.turnstart = True
-        self.walk = 5000000
+        self.moves = 5000000
 
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
@@ -59,30 +59,35 @@ class Game:
                     board[x,y].setPoliceline(True)
         return board
 
-    def MoveDirection(self, key, player):
-        if key[pygame.K_UP]:
-            if self.gettile(player.pos.x, player.pos.y-1).isTraversable():
-                self.players[self.turn].pos.y -= 1
-                self.cooldown = 0.5
-                self.walk -= 1
-        elif key[pygame.K_DOWN]:
-            if self.gettile(player.pos.x, player.pos.y + 1).isTraversable():
-                self.players[self.turn].pos.y += 1
-                self.cooldown = 0.5
-                self.walk -= 1
-        elif key[pygame.K_RIGHT]:
-            if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable():
-                self.players[self.turn].pos.x += 1
-                self.cooldown = 0.5
-                self.walk -= 1
-        elif key[pygame.K_LEFT]:
-            if self.gettile(player.pos.x-1, player.pos.y).isTraversable():
-                self.players[self.turn].pos.x -= 1
-                self.cooldown = 0.5
-                self.walk -= 1
+    def MoveDirection(self,player, dt):
+        key = pygame.key.get_pressed()
+        self.cooldown = self.cooldown - dt
+        if self.cooldown < 0.0:
+            if key[pygame.K_UP]:
+                if self.gettile(player.pos.x, player.pos.y-1).isTraversable():
+                    self.players[self.turn].pos.y -= 1
+                    self.cooldown = 0.5
+                    self.moves -= 1
+            elif key[pygame.K_DOWN]:
+                if self.gettile(player.pos.x, player.pos.y + 1).isTraversable():
+                    self.players[self.turn].pos.y += 1
+                    self.cooldown = 0.5
+                    self.moves -= 1
+            elif key[pygame.K_RIGHT]:
+                if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable():
+                    self.players[self.turn].pos.x += 1
+                    self.cooldown = 0.5
+                    self.moves -= 1
+            elif key[pygame.K_LEFT]:
+                if self.gettile(player.pos.x-1, player.pos.y).isTraversable():
+                    self.players[self.turn].pos.x -= 1
+                    self.cooldown = 0.5
+                    self.moves-= 1
 
     def changeturn(self):
-        self.turn = (self.turn + 1) % self.playeramount
+        if self.moves == 0:
+            self.turnstart = True
+            self.turn = (self.turn + 1) % self.playeramount
 
     def gettile(self, x, y):
         return self.board[x, y]
@@ -90,28 +95,18 @@ class Game:
     def dice(self):
         print("Player {} turn".format(self.turn + 1))
         throw = random.randint(1, 6)
-        self.walk = throw
+        self.moves = throw
         print("You threw " + str(throw))
         self.turnstart = False
 
     def update(self, screen, width, height, events, dt):
         self.player = self.players[self.turn]
-        if self.turnstart:
-            self.dice()
-
-        if self.walk == 0:
-            tile = self.gettile(self.player.pos.x, self.player.pos.y)
-            if tile.kans:
-                print("Kanskaart San")
-            self.turnstart = True
-            self.changeturn()
-
-        keys = pygame.key.get_pressed()
-        self.cooldown = self.cooldown - dt
-        if self.cooldown < 0.0:
-            self.MoveDirection(keys, self.player)
-
+        self.dice()
+        self.MoveDirection(self.player, dt)
+        self.changeturn()
         self.draw(screen)
+
+
         # menu balk in game start
         red = (175, 0, 0)
         bright_red = (255, 0, 0)
@@ -161,12 +156,7 @@ class Game:
     def draw(self, screen):
         screen.fill(black)
         cSize = self.width // self.columns
-<<<<<<< HEAD
         rSize = self.height // (self.rows+2)
         self.drawboard(screen, cSize, rSize)
         self.drawplayers(screen, cSize, rSize)
         self.board[starttile].drawprison(screen, cSize, rSize)
-=======
-        rSize = self.height // (self.rows + 2)
-        self.drawboard(screen, cSize, rSize)
->>>>>>> origin/master
