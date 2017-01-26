@@ -1,119 +1,143 @@
 import pygame
 import random
+import time
 from pause_menu import Pause_menu #ook nieuw
 from Board import *
 from Player import *
 
 class Game:
-    def __init__(self, cols, rows, width, height, playeramount):
+    def __init__(self, screen, cols, rows, width, height, playeramount):
+        self.screen = screen
         self.columns = cols
         self.rows = rows
         self.width = width
         self.height = height
         self.playeramount = playeramount
-        self.players = self.Createplayers(playeramount)
         self.board = self.Createboard()
+        self.players = self.Createplayers()
         self.turn = 0
         self.cooldown = 0.5
         self.turnstart = True
-        self.walk = 5000000
+        self.activatepolice = False
+        self.walk = 0
+        self.background = pygame.image.load('images/tiles/rotterdam.png')
 
-    def text_objects(self, text, font, color):
-        textSurface = font.render(text, True, color)
-        return textSurface, textSurface.get_rect()
-
-    def Createplayers(self, playeramount):
-        playerlist = []
-        for i in range(playeramount):
-            x, y = starttile
-            playerlist.append(Player(Vector2(x, y), colors.randomcolor()))
-        return playerlist
-
-    def Createboard(self):
-        board = {}
-        for y in range(self.rows):
-            for x in range(self.columns):
-                if x == 0:
-                    board[x-1,y] = Nothing(Vector2(x,y))
-                if y == 0:
-                    board[x, y-1] = Nothing(Vector2(x, y))
-                if x == self.columns -1:
-                    board[self.columns, y] = Nothing(Vector2(x, y))
-                if y == self.rows -1:
-                    board[x, self.rows] = Nothing(Vector2(x, y))
-                if (x, y) == (0,10):
-                    board[x, y] = Starttile(Vector2(x, y))
-
-                elif (x, y) in landmarks:
-                    board[x,y] = Landmark(Vector2(x,y))
-                elif (x, y) in kanskaarten:
-                    board[x,y] = Kans(Vector2(x,y))
-                elif (x, y) in policesquares:
-                    board[x,y] = Police(Vector2(x,y))
-                elif (x, y) in whitetiles:
-                    board[x,y] = White(Vector2(x,y))
-                else:
-                    board[x,y] = Nothing(Vector2(x,y))
-                if (x, y) in arenas:
-                    board[x,y].setArena(True)
-        return board
-
-    def MoveDirection(self, key, player):
-        if key[pygame.K_UP]:
-            if self.gettile(player.pos.x, player.pos.y-1).isTraversable():
-                self.players[self.turn].pos.y -= 1
-                self.cooldown = 0.5
-                self.walk -= 1
-        elif key[pygame.K_DOWN]:
-            if self.gettile(player.pos.x, player.pos.y + 1).isTraversable():
-                self.players[self.turn].pos.y += 1
-                self.cooldown = 0.5
-                self.walk -= 1
-        elif key[pygame.K_RIGHT]:
-            if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable():
-                self.players[self.turn].pos.x += 1
-                self.cooldown = 0.5
-                self.walk -= 1
-        elif key[pygame.K_LEFT]:
-            if self.gettile(player.pos.x-1, player.pos.y).isTraversable():
-                self.players[self.turn].pos.x -= 1
-                self.cooldown = 0.5
-                self.walk -= 1
+    def MoveDirection(self, player, dt):
+        key = pygame.key.get_pressed()
+        self.cooldown = self.cooldown - dt
+        if self.cooldown < 0.0:
+            if key[pygame.K_UP]:
+                if self.gettile(player.pos.x, player.pos.y-1).isTraversable()and not self.player.lastdirection == "down":
+                    player.pos.y -= 1
+                    self.cooldown = 0.5
+                    self.walk -= 1
+                    self.player.lastdirection = "up"
+            elif key[pygame.K_DOWN]:
+                if self.gettile(player.pos.x, player.pos.y + 1).isTraversable() and not self.player.lastdirection == "up":
+                    self.players[self.turn].pos.y += 1
+                    self.cooldown = 0.5
+                    self.walk -= 1
+                    self.player.lastdirection = "down"
+            elif key[pygame.K_RIGHT]:
+                if self.gettile(player.pos.x + 1 , player.pos.y).isTraversable() and not self.player.lastdirection == "left":
+                    self.players[self.turn].pos.x += 1
+                    self.cooldown = 0.5
+                    self.walk -= 1
+                    self.player.lastdirection = "right"
+            elif key[pygame.K_LEFT]:
+                if self.gettile(player.pos.x-1, player.pos.y).isTraversable() and not self.player.lastdirection == "right":
+                    self.players[self.turn].pos.x -= 1
+                    self.cooldown = 0.5
+                    self.walk -= 1
+                    self.player.lastdirection = "left"
 
     def changeturn(self):
-        self.turn = (self.turn + 1) % self.playeramount
+        if self.walk == 0:
+            self.turnstart = True
+            self.turn = (self.turn + 1) % self.playeramount
 
 
     def gettile(self, x, y):
         return self.board[x, y]
 
     def dice(self):
-        print("Player {} turn".format(self.turn + 1))
-        throw = random.randint(1, 6)
-        self.walk = throw
-        print("You threw " + str(throw))
-        self.turnstart = False
+        if self.turnstart:
+            size = 256
+            spots_size = size // 10
+            midden = int(size / 2)
+            links = boven = int(size / 4)
+            rechts = onder = size - links
+            keer = 20
+            spots = (0, 0, 0)
+            screen = self.screen
+            self.message_display("{}'s turn".format(self.player.name), self.player.img, 0)
+            pygame.display.update()
+            for i in range(keer):
+                cijfer = random.randint(1, 6)
+                pygame.draw.rect(screen, white, [0, 0, size, size])
+                if cijfer % 2 == 1:
+                    pygame.draw.circle(screen, spots, (midden, midden), spots_size)
+                if cijfer == 2 or cijfer == 3 or cijfer == 4 or cijfer == 5 or cijfer == 6:
+                    pygame.draw.circle(screen, spots, (links, onder), spots_size)
+                    pygame.draw.circle(screen, spots, (rechts, boven), spots_size)
+                if cijfer == 4 or cijfer == 5 or cijfer == 6:
+                    pygame.draw.circle(screen, spots, (links, boven), spots_size)
+                    pygame.draw.circle(screen, spots, (rechts, onder), spots_size)
+                if cijfer == 6:
+                    pygame.draw.circle(screen, spots, (midden, onder), spots_size)
+                    pygame.draw.circle(screen, spots, (midden, boven), spots_size)
+
+                pygame.display.update()
+                time.sleep(0.1)
+            time.sleep(0.5)
+            if self.board[self.player.pos.x, self.player.pos.y].start:
+                if cijfer >= 4:
+                    self.message_display("You got out of jail", self.player.img, 64)
+                    self.walk = cijfer
+                else:
+                    self.walk = 0
+            if self.board[self.player.pos.x, self.player.pos.y].arrow:
+                if len(self.player.quests) > 1:
+                    self.message_display("Not enough quests", colors.yellow(), 64)
+                    self.walk = 0
+
+                elif cijfer >= 4:
+                    self.message_display("You got on the boat", self.player.img, 64)
+                    self.player.pos.x, self.player.pos.y = boat
+
+
+
+            else:
+                self.walk = cijfer
+            self.turnstart = False
+
+
+    def TileAction(self, player):
+        if (player.pos.x, player.pos.y) in self.player.quests:
+            self.message_display("Quest Complete", colors.yellow(), 0)
+            player.removequest((player.pos.x, player.pos.y))
+        if self.board[player.pos.x, player.pos.y].arrow:
+                self.walk = 0
+        if self.walk == 0:
+            if self.board[player.pos.x, player.pos.y].police:
+                self.message_display("Next turn you'll walk backwards!", self.player.img, 0)
+                if (player.pos.x, player.pos.y) == (28,4):
+                    player.lastdirection = "up"
+                else:
+                    player.lastdirection = "left"
+            if self.board[player.pos.x, player.pos.y].policeline:
+                self.activatepolice = True
+
+
 
     def update(self, screen, width, height, events, dt):
         self.player = self.players[self.turn]
-        if self.turnstart:
-            self.dice()
-
-        if self.walk == 0:
-            tile = self.gettile(self.player.pos.x, self.player.pos.y)
-            if tile.kans:
-                print("Kanskaart San")
-
-
-            self.turnstart = True
-            self.changeturn()
-
-        keys = pygame.key.get_pressed()
-        self.cooldown = self.cooldown - dt
-        if self.cooldown < 0.0:
-            self.MoveDirection(keys, self.player)
-
         self.draw(screen)
+        self.dice()
+        self.MoveDirection(self.player, dt)
+        self.TileAction(self.player)
+        self.changeturn()
+
         # menu balk in game start
         red = (175, 0, 0)
         bright_red = (255, 0, 0)
@@ -157,12 +181,76 @@ class Game:
             for y in range(self.rows):
                 self.board[x,y].draw(screen, cSize, rSize)
                 self.board[x,y].drawarenas(screen, cSize, rSize)
-
+                self.board[x, y].drawpoliceline(screen, cSize, rSize)
         self.drawplayers(screen, cSize, rSize)
         self.board[starttile].drawprison(screen, cSize, rSize)
 
+
     def draw(self, screen):
-        screen.fill(black)
+        screen.blit(pygame.transform.scale(self.background, (self.width, self.height)), (0, 0))
         cSize = self.width // self.columns
         rSize = self.height // (self.rows + 2)
         self.drawboard(screen, cSize, rSize)
+        self.player.drawquests(screen, cSize, rSize)
+    def text_objects(self, text, font, color):
+        textSurface = font.render(text, True, color)
+        return textSurface, textSurface.get_rect()
+
+    def message_display(self, text, color, offset):
+        largeText = pygame.font.Font('freesansbold.ttf', 80)
+        TextSurf, TextRect = self.text_objects(text, largeText, color)
+        TextRect.center = ((self.width/2, (self.height/2 + offset)))
+        self.screen.blit(TextSurf, TextRect)
+        pygame.display.update()
+        time.sleep(2)
+
+
+    def Createplayers(self):
+            playerlist = []
+            for i in range(self.playeramount):
+                name = str(input("Enter your name: "))
+                player = Player(Vector2(0, 10), colors.randomcolor(), name)
+                playerlist.append(player)
+            return playerlist
+
+    def Createboard(self):
+        board = {}
+        i = 0
+        i2 = 0
+        for y in range(self.rows):
+            for x in range(self.columns):
+                if x == 0:
+                    board[x-1,y] = Nothing(Vector2(x,y))
+                if y == 0:
+                    board[x, y-1] = Nothing(Vector2(x, y))
+                if x == self.columns -1:
+                    board[self.columns, y] = Nothing(Vector2(x, y))
+                if y == self.rows -1:
+                    board[x, self.rows] = Nothing(Vector2(x, y))
+                if (x, y) == starttile:
+                    board[x, y] = Starttile(Vector2(x, y))
+                elif (x,y) == arrow:
+                    board[x, y] = Arrow(Vector2(x, y))
+                elif (x,y) == boat:
+                    board[x, y] = Boat(Vector2(x, y))
+
+                elif (x, y) in landmarks:
+                    board[x,y] = Landmark(Vector2(x,y), landmarkimgs[i])
+                    i += 1
+                elif (x, y) in powerups:
+                    board[x, y] = Landmark(Vector2(x, y), powerupimgs[i2])
+                    i2 += 1
+
+                elif (x, y) in kanskaarten:
+                    board[x,y] = Kans(Vector2(x,y))
+                elif (x, y) in policesquares:
+                    board[x,y] = Police(Vector2(x,y))
+                elif (x, y) in whitetiles:
+                    board[x,y] = White(Vector2(x,y))
+                else:
+                    board[x,y] = Nothing(Vector2(x,y))
+                if (x, y) in arenas:
+                    board[x,y].setArena(True)
+                if (x, y) in line:
+                    board[x,y].setPoliceline(True)
+        return board

@@ -47,7 +47,7 @@ class Player_select:
             pygame.draw.rect(screen, bright_red, (((width/2) - 100), (((height/6) * 2) - 25), 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    game  = Game(colloms, rows, width, height, 3)
+                    game  = Game(screen, colloms, rows, width, height, 3)
                     return game
         else:
             pygame.draw.rect(screen, red, (((width/2) - 100), (((height/6) * 2) - 25), 200, 50))
@@ -55,7 +55,7 @@ class Player_select:
             pygame.draw.rect(screen, bright_blue, (((width/2) - 100), (((height/6) * 3) - 25), 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    game  = Game(colloms, rows, width, height, 4)
+                    game  = Game(screen, colloms, rows, width, height, 4)
                     return game
         else:
             pygame.draw.rect(screen, blue, (((width/2) - 100), (((height/6) * 3) - 25), 200, 50))
@@ -63,7 +63,7 @@ class Player_select:
             pygame.draw.rect(screen, bright_green, (((width/2) - 100), (((height/6) * 4) - 25), 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    game  = Game(colloms, rows, width, height, 5)
+                    game  = Game(screen, colloms, rows, width, height, 5)
                     return game
         else:
             pygame.draw.rect(screen, green, (((width/2) - 100), (((height/6) * 4) - 25), 200, 50))
@@ -71,7 +71,7 @@ class Player_select:
             pygame.draw.rect(screen, bright_yellow, (((width/2) - 100), (((height/6) * 5) - 25), 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    game  = Game(colloms, rows, width, height, 6)
+                    game  = Game(screen, colloms, rows, width, height, 6)
                     return game
         else:
             pygame.draw.rect(screen, yellow, (((width/2) - 100), (((height/6) * 5) - 25), 200, 50))

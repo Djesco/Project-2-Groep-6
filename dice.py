@@ -9,7 +9,7 @@ spots_size = size//10
 midden = int(size/2)
 links = boven = int(size/4)
 rechts = onder = size-links
-keer = 20
+keer = 10
 spots = (0,0,0)
 dice = (255,255,255)
 screen = pygame.display.set_mode((size, size))
@@ -31,7 +31,7 @@ for i in range(keer):
         pygame.draw.circle(screen,spots,(midden,boven),spots_size)
 
     pygame.display.flip()
-    time.sleep(0.4)
+    time.sleep(0.3)
 pygame.quit()
 quit()
 
