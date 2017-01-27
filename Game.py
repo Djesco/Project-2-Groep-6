@@ -1,5 +1,7 @@
 import pygame
 import random
+from policeline import *
+from pygame.locals import *
 import time
 from pause_menu import Pause_menu #ook nieuw
 from Board import *
@@ -14,11 +16,12 @@ class Game:
         self.height = height
         self.playeramount = playeramount
         self.board = self.Createboard()
-        self.players = self.Createplayers()
+        self.players = self.Createplayers(screen)
+        self.policeline = Policeline()
+        self.policelineturn = 0
         self.turn = 0
         self.cooldown = 0.5
         self.turnstart = True
-        self.activatepolice = False
         self.walk = 0
         self.background = pygame.image.load('images/tiles/rotterdam.png')
 
@@ -55,6 +58,7 @@ class Game:
         if self.walk == 0:
             self.turnstart = True
             self.turn = (self.turn + 1) % self.playeramount
+            self.player = self.players[self.turn]
 
 
     def gettile(self, x, y):
@@ -89,35 +93,42 @@ class Game:
 
                 pygame.display.update()
                 time.sleep(0.1)
-            time.sleep(0.5)
+            time.sleep(1)
             if self.board[self.player.pos.x, self.player.pos.y].start:
                 if cijfer >= 4:
                     self.message_display("You got out of jail", self.player.img, 64)
                     self.walk = cijfer
                 else:
                     self.walk = 0
-            if self.board[self.player.pos.x, self.player.pos.y].arrow:
+
+            elif self.board[self.player.pos.x, self.player.pos.y].arrow:
                 if len(self.player.quests) > 1:
                     self.message_display("Not enough quests", colors.yellow(), 64)
                     self.walk = 0
-
                 elif cijfer >= 4:
                     self.message_display("You got on the boat", self.player.img, 64)
                     self.player.pos.x, self.player.pos.y = boat
-
-
-
             else:
                 self.walk = cijfer
             self.turnstart = False
 
+    def isarrested(self):
+        if self.player.pos.x < self.policeline.x and self.walk == 0:
+            self.message_display("{} has been arrested".format(self.player.name), colors.blue(), 64)
+            self.players.remove(self.player)
+            self.playeramount -= 1
+            self.changeturn()
 
     def TileAction(self, player):
         if (player.pos.x, player.pos.y) in self.player.quests:
             self.message_display("Quest Complete", colors.yellow(), 0)
             player.removequest((player.pos.x, player.pos.y))
-        if self.board[player.pos.x, player.pos.y].arrow:
+        elif self.board[player.pos.x, player.pos.y].arrow:
                 self.walk = 0
+        elif self.board[player.pos.x, player.pos.y].policeline and not self.policeline.activated:
+            self.policelineturn = self.turn
+            self.message_display("Policeline activated", colors.blue(), 64)
+            self.policeline.activated = True
         if self.walk == 0:
             if self.board[player.pos.x, player.pos.y].police:
                 self.message_display("Next turn you'll walk backwards!", self.player.img, 0)
@@ -125,18 +136,20 @@ class Game:
                     player.lastdirection = "up"
                 else:
                     player.lastdirection = "left"
-            if self.board[player.pos.x, player.pos.y].policeline:
-                self.activatepolice = True
+            if self.policeline.activated and (self.turn == 0):
+                self.policeline.move()
 
 
 
     def update(self, screen, width, height, events, dt):
         self.player = self.players[self.turn]
         self.draw(screen)
+        self.isarrested()
         self.dice()
         self.MoveDirection(self.player, dt)
         self.TileAction(self.player)
         self.changeturn()
+
 
         # menu balk in game start
         red = (175, 0, 0)
@@ -192,6 +205,8 @@ class Game:
         rSize = self.height // (self.rows + 2)
         self.drawboard(screen, cSize, rSize)
         self.player.drawquests(screen, cSize, rSize)
+        self.policeline.draw(screen, cSize, rSize, self.columns)
+
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
@@ -204,11 +219,32 @@ class Game:
         pygame.display.update()
         time.sleep(2)
 
+    def typename(self, screen):
+        screen = self.screen
+        name = ""
+        font = pygame.font.Font(None, 50)
+        while True:
+            for evt in pygame.event.get():
+                if evt.type == KEYDOWN:
+                    if evt.unicode.isalpha():
+                        name += evt.unicode
+                    elif evt.key == K_BACKSPACE:
+                        name = name[:-1]
+                    elif evt.key == K_RETURN:
+                        return name
+                elif evt.type == QUIT:
+                    return
+            screen.fill((0, 0, 0))
+            block = font.render(name, True, (255, 255, 255))
+            rect = block.get_rect()
+            rect.center = screen.get_rect().center
+            screen.blit(block, rect)
+            pygame.display.flip()
 
-    def Createplayers(self):
+    def Createplayers(self,screen):
             playerlist = []
             for i in range(self.playeramount):
-                name = str(input("Enter your name: "))
+                name = self.typename(screen)
                 player = Player(Vector2(0, 10), colors.randomcolor(), name)
                 playerlist.append(player)
             return playerlist
