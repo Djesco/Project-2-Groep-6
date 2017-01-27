@@ -2,7 +2,7 @@ import pygame
 import random
 import time
 from pause_menu import Pause_menu #ook nieuw
-from Board import *
+import Board as b
 from Player import *
 
 class Game:
@@ -53,8 +53,16 @@ class Game:
 
     def changeturn(self):
         if self.walk == 0:
+            x = random.randrange(1, 33)
+            for i in b.kanskaarten:
+                if (self.player.pos.x, self.player.pos.y) == i:
+                    image = pygame.image.load("images/Surprisekaarten/surprise"+str(x)+".png")
+                    self.screen.blit(image, (10, 10))
+                    pygame.display.flip()
+                    time.sleep(5)
             self.turnstart = True
             self.turn = (self.turn + 1) % self.playeramount
+
 
 
     def gettile(self, x, y):
