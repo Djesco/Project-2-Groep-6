@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 from main_menu import Main_menu
 
 class Pause_menu:
@@ -46,11 +46,64 @@ class Pause_menu:
                     return m
         else:
             pygame.draw.rect(screen, red, (((width/2) - 150), (((height/3) * 2) - 25), 300, 50))
+
+        tut1 = pygame.image.load("images/Tutorialplaatjes/tut1.png")
+        tut2 = pygame.image.load("images/Tutorialplaatjes/tut2.png")
+        tut3 = pygame.image.load("images/Tutorialplaatjes/tut3.png")
+        tut4 = pygame.image.load("images/Tutorialplaatjes/tut4.png")
+        tut5 = pygame.image.load("images/Tutorialplaatjes/tut5.png")
+        tut6 = pygame.image.load("images/Tutorialplaatjes/tut6.png")
+        tut7 = pygame.image.load("images/Tutorialplaatjes/tut7.png")
+        tut8 = pygame.image.load("images/Tutorialplaatjes/tut8.png")
+        tut9 = pygame.image.load("images/Tutorialplaatjes/tut9.png")
+        tut10 = pygame.image.load("images/Tutorialplaatjes/tut10.png")
         if ((width/2) + 150) > mouse[0] > ((width/2) -150) and ((height/2) + 25) > mouse[1] > ((height/2) -25):
             pygame.draw.rect(screen, brigth_blue, (((width/2) - 150), ((height/2) -25), 300, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    print("merp")
+                    screen.fill((255,255,255))
+                    screen.blit(tut1,(0,0))
+                    pygame.display.flip()
+                    time.sleep(5)
+                    screen.fill((255,255,255))
+                    screen.blit(tut2,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut3,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut4,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut5,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut6,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut7,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut8,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut9,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut10,(0,0))
+                    time.sleep(5)
+                    pygame.display.flip()
+                    screen.fill((255,255,255))
+                    screen.blit(tut1,(0,0))
+                    time.sleep(1)
         else:
             pygame.draw.rect(screen, blue, (((width/2) - 150), ((height/2) -25), 300, 50)) 
         screen.blit(TitleText, TitleRect)
