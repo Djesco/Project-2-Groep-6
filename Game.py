@@ -116,6 +116,7 @@ class Game:
                 elif cijfer >= 4:
                     self.message_display("You got on the boat", self.player.img, 64)
                     self.player.pos.x, self.player.pos.y = boat
+                    
             else:
                 self.walk = cijfer
             self.turnstart = False
