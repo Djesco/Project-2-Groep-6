@@ -19,7 +19,10 @@ class Endscreen:
         largeText = pygame.font.Font(None ,75)
         midText = pygame.font.Font(None, 37)
         smallText = pygame.font.Font(None, 25)
-        TitleText, TitleRect = self.text_objects("{} heeft gewonnen!".format(self.name), largeText, black)
+        if self.name != "Highscores":
+            TitleText, TitleRect = self.text_objects("{} heeft gewonnen!".format(self.name), largeText, black)
+        else:
+            TitleText, TitleRect = self.text_objects("Highscores".format(self.name), largeText, black)
         TitleRect.center = ((width/2),(height/10))
         BackText, BackRect = self.text_objects("< Menu", midText, white)
         BackRect.center = (62.5, 25)
