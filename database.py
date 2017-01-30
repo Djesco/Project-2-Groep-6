@@ -30,7 +30,7 @@ def download_scores():
     list = interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")
     result = ""
     for i in range(len(list)):
-            result += interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[i][0] + " "
+            result += "Name: " + interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[i][0] + ", Turns: "
             result += str(interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[i][1])
             result += "\n"
 
@@ -39,14 +39,12 @@ def download_scores():
 
 def download_top_score():
     result = ""
-    result += interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[0][0] + " "
+    result += "Name: " + interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[0][0] + ", Turns: "
     result += str(interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[0][1])
     return result
 
 allscores = download_scores()
-winner = download_top_score()
-
-print(download_scores())
-
-print(download_top_score())
+topscores = download_top_score()
+print(allscores)
+print(topscores)
 
