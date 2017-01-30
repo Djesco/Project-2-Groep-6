@@ -5,11 +5,11 @@ import colors
 from Game import Game
 from main_menu import Main_menu 
 pygame.init()
-
-# fullscreen = pygame.FULLSCREEN
+import Board as b
+fullscreen = pygame.FULLSCREEN
 width = 1280
 height = 720
-screen = pygame.display.set_mode((width,height))#, fullscreen)
+screen = pygame.display.set_mode((width,height), (fullscreen))
 
 pygame.display.set_caption("Ontsnapperdam")
 clock = pygame.time.Clock()
