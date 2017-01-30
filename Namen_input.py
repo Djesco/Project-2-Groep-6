@@ -35,7 +35,7 @@ class Namen():
 
         screen_center = (640, 360)
         fontObj = pygame.font.Font('freesansbold.ttf', 32)
-        textsurface = fontObj.render("Type je naam en druk op enter", True, self.black)
+        textsurface = fontObj.render("Type je naam en klik op de gevangenis", True, self.black)
         rectsurface = textsurface.get_rect()
         rectsurface.center = (640, 50)
         border = rectsurface.inflate(25, 25)

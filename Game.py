@@ -4,6 +4,7 @@ from database import *
 from policeline import *
 from pygame.locals import *
 import time
+from Endscreen import *
 from pause_menu import Pause_menu #ook nieuw
 import Board as b
 from Player import *
@@ -127,7 +128,7 @@ class Game:
                 elif cijfer >= 4:
                     self.message_display("You got on the boat", self.player.img, 64)
                     self.player.pos.x, self.player.pos.y = boat
-                    upload_score(self.player.name, self.gameturns)
+
             else:
                 self.walk = cijfer
             self.turnstart = False
@@ -168,6 +169,9 @@ class Game:
         self.dice()
         self.MoveDirection(self.player, dt)
         self.TileAction(self.player)
+        if self.board[self.player.pos.x, self.player.pos.y].boat:
+            end = Endscreen(self.player.name)
+            return end
         self.changeturn()
 
 
@@ -199,6 +203,7 @@ class Game:
         # menu balk in game eind
         pygame.display.update()
         return self
+
 
     def drawplayers(self, screen, cSize, rSize):
         for i in range(self.playeramount):
@@ -314,5 +319,3 @@ class Game:
                     board[x,y].setPoliceline(True)
         return board
 
-# def terminationscreen(self):
-  #      if
