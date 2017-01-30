@@ -1,5 +1,6 @@
 import pygame
 import random
+from database import *
 from policeline import *
 from pygame.locals import *
 import time
@@ -20,10 +21,12 @@ class Game:
         self.policeline = Policeline()
         self.policelineturn = 0
         self.turn = 0
+        self.gameturns = 0
         self.cooldown = 0.5
         self.turnstart = True
         self.walk = 0
         self.background = pygame.image.load('images/tiles/rotterdam.png')
+
 
     def MoveDirection(self, player, dt):
         key = pygame.key.get_pressed()
@@ -72,6 +75,7 @@ class Game:
                     time.sleep(5)
             self.turnstart = True
             self.turn = (self.turn + 1) % self.playeramount
+            self.gameturns += 1
             self.player = self.players[self.turn]
 
 
@@ -123,6 +127,7 @@ class Game:
                 elif cijfer >= 4:
                     self.message_display("You got on the boat", self.player.img, 64)
                     self.player.pos.x, self.player.pos.y = boat
+                    upload_score(self.player.name, self.gameturns)
             else:
                 self.walk = cijfer
             self.turnstart = False
