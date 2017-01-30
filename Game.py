@@ -250,9 +250,12 @@ class Game:
             pygame.display.flip()
 
     def Createplayers(self,screen):
+            from Namen_input import Namen
+            spelernamen = Namen(self.playeramount)
+            spelerlijst = spelernamen.check()
             playerlist = []
-            for i in range(self.playeramount):
-                name = self.typename(screen)
+            for i in spelerlijst:
+                name = i
                 player = Player(Vector2(0, 10), colors.randomcolor(), name)
                 playerlist.append(player)
             return playerlist
