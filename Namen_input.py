@@ -11,19 +11,11 @@ pygame.init()
 
 class Namen():
 
-    def __init__(self, playeramount):
-
-        width = 1280
-        height = 720
-        size = (width, height)
-        self.screen = pygame.display.set_mode(size)
-        self.black = 0, 0, 0
+    def __init__(self, playeramount, screen):
+        self.screen = screen
         white = (255, 255, 255)
-        red = (255, 0, 0)
-        blue = (0, 0, 255)
-        green = (0, 255, 0)
         self.screen.fill(white)
-        pygame.display.set_caption("Name Input")
+        self.black = (0, 0, 0)
 
         self.naam = ""
         self.all_players = []

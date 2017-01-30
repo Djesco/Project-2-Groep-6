@@ -63,6 +63,13 @@ class Game:
                     self.screen.blit(image, (10, 10))
                     pygame.display.flip()
                     time.sleep(5)
+            y = random.randrange(1, 11)
+            for j in b.powerups:
+                if (self.player.pos.x, self.player.pos.y) == j:
+                    image = pygame.image.load("images/Power-ups/powerup"+str(y)+".png")
+                    self.screen.blit(image,(10,10))
+                    pygame.display.flip()
+                    time.sleep(5)
             self.turnstart = True
             self.turn = (self.turn + 1) % self.playeramount
             self.player = self.players[self.turn]
@@ -251,7 +258,7 @@ class Game:
 
     def Createplayers(self,screen):
             from Namen_input import Namen
-            spelernamen = Namen(self.playeramount)
+            spelernamen = Namen(self.playeramount, screen)
             spelerlijst = spelernamen.check()
             playerlist = []
             for i in spelerlijst:
@@ -301,3 +308,6 @@ class Game:
                 if (x, y) in line:
                     board[x,y].setPoliceline(True)
         return board
+
+# def terminationscreen(self):
+  #      if
