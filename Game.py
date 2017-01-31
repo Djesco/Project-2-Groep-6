@@ -275,7 +275,7 @@ class Game:
             playerlist = []
             for i in spelerlijst:
                 name = i
-                player = Player(Vector2(30, 17), colors.randomcolor(), name)
+                player = Player(Vector2(0, 10), colors.randomcolor(), name)
                 playerlist.append(player)
             return playerlist
 
