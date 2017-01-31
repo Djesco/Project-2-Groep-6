@@ -1,4 +1,6 @@
 import pygame
+import sys
+from pygame.locals import *
 from database import *
 
 
@@ -30,6 +32,25 @@ class Endscreen:
         BackText, BackRect = self.text_objects("< Menu", midText, white)
         BackRect.center = (62.5, 25)
         mouse = pygame.mouse.get_pos()
+
+        font = pygame.font.Font('freesansbold.ttf', 36)
+
+
+        hsrect = Rect(500,500,100,100)
+        hsrect.center = (width//3, 200)
+
+        hslist = download_scores()
+
+        for i in range(len(hslist)):
+            name, score = hslist[i]
+            display = "Name: " + name + ", Turns: " + str(score)
+            hstext = font.render(display, True, black)
+            screen.blit(hstext,hsrect)
+            hsrect.y += 32
+
+
+
+
         if 125 > mouse[0] > 0 and (50 > mouse[1] > 0):
             pygame.draw.rect(screen, bright_red, (0, 0, 125, 50))
             for event in events:
@@ -39,6 +60,8 @@ class Endscreen:
                     return m
         else:
             pygame.draw.rect(screen, red, (0, 0, 125, 50))
+
+
 
         screen.blit(TitleText, TitleRect)
         screen.blit(BackText, BackRect)

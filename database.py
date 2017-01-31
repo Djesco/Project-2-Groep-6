@@ -22,8 +22,8 @@ def upload_score(name, score):
     interaction_database("UPDATE highscores SET highscores = {} WHERE usernames = '{}'"
                            .format(score, name))
 
-def insert_players(name, score):
-    interaction_database("INSERT INTO highscores VALUES ('{}', NULL)". format(name, score))
+def insert_players(name):
+    interaction_database("INSERT INTO highscores VALUES ('{}', NULL)". format(name))
 
 
 def download_scores():

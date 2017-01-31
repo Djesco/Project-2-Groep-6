@@ -9,12 +9,13 @@ class Player:
         self.pos = pos
         self.img = img
         self.name = name
+        self.playerturns = 0
         self.quests = self.createquests(landmarks)
         self.lastdirection = []
 
     def createquests(self, list):
         quests = []
-        for i in range(1):
+        for i in range(3):
             n = random.randint(0, len(landmarks)- 1)
             q = list[n]
             quests.append(q)

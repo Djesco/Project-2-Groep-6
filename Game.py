@@ -22,7 +22,6 @@ class Game:
         self.policeline = Policeline()
         self.policelineturn = 0
         self.turn = 0
-        self.gameturns = 0
         self.cooldown = 0.5
         self.turnstart = True
         self.walk = 0
@@ -76,7 +75,7 @@ class Game:
                     time.sleep(5)
             self.turnstart = True
             self.turn = (self.turn + 1) % self.playeramount
-            self.gameturns += 1
+            self.player.playerturns += 1
             self.player = self.players[self.turn]
 
 
@@ -170,7 +169,8 @@ class Game:
         self.MoveDirection(self.player, dt)
         self.TileAction(self.player)
         if self.board[self.player.pos.x, self.player.pos.y].boat:
-            upload_score(self.player.name, self.gameturns)
+            insert_players(self.player.name)
+            upload_score(self.player.name, self.player.playerturns)
             end = Endscreen(self.player.name)
             return end
         self.changeturn()
@@ -274,7 +274,7 @@ class Game:
             playerlist = []
             for i in spelerlijst:
                 name = i
-                player = Player(Vector2(30, 16), colors.randomcolor(), name)
+                player = Player(Vector2(18, 3), colors.randomcolor(), name)
                 playerlist.append(player)
             return playerlist
 
