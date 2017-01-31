@@ -1,6 +1,6 @@
 import pygame, time
 from main_menu import Main_menu
-
+from tutorial import Tutorial
 class Pause_menu:
     def __init__(self, previous_screen):
         self.prevscr = previous_screen
@@ -61,49 +61,9 @@ class Pause_menu:
             pygame.draw.rect(screen, brigth_blue, (((width/2) - 150), ((height/2) -25), 300, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    screen.fill((255,255,255))
-                    screen.blit(tut1,(0,0))
-                    pygame.display.flip()
-                    time.sleep(5)
-                    screen.fill((255,255,255))
-                    screen.blit(tut2,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut3,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut4,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut5,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut6,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut7,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut8,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut9,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut10,(0,0))
-                    time.sleep(5)
-                    pygame.display.flip()
-                    screen.fill((255,255,255))
-                    screen.blit(tut1,(0,0))
-                    time.sleep(1)
+                    tut = Tutorial(self)
+                    return tut
+
         else:
             pygame.draw.rect(screen, blue, (((width/2) - 150), ((height/2) -25), 300, 50)) 
         screen.blit(TitleText, TitleRect)

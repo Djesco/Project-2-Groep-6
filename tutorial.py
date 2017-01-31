@@ -1,208 +1,203 @@
 import pygame, time, random, sys
-from main import main
+from main_menu import *
 
 pygame.init()
 
-tut1 = pygame.image.load("images/Tutorialplaatjes/tut1.png")
-tut2 = pygame.image.load("images/Tutorialplaatjes/tut2.png")
-tut3 = pygame.image.load("images/Tutorialplaatjes/tut3.png")
-tut4 = pygame.image.load("images/Tutorialplaatjes/tut4.png")
-tut5 = pygame.image.load("images/Tutorialplaatjes/tut5.png")
-tut6 = pygame.image.load("images/Tutorialplaatjes/tut6.png")
-tut7 = pygame.image.load("images/Tutorialplaatjes/tut7.png")
-tut8 = pygame.image.load("images/Tutorialplaatjes/tut8.png")
-tut9 = pygame.image.load("images/Tutorialplaatjes/tut9.png")
-tut10 = pygame.image.load("images/Tutorialplaatjes/tut10.png")
 fullscreen = pygame.FULLSCREEN
 width = 1280
 height = 720
 screen = pygame.display.set_mode((width,height), (fullscreen))
 white = (255, 255, 255)
 
-def rules():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut1.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules2()
-
-def rules2():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut2.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules3()
-
-def rules3():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut3.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules4()
-
-def rules4():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut4.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules5()
-
-def rules5():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut5.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules6()
-
-def rules6():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut6.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules7()
-
-def rules7():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut7.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules8()
-
-def rules8():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut8.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        rules9()
-
-def rules9():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut9.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        print("hi")
-
-def rules10():
-
-        redSquare = pygame.image.load('images/Tutorialplaatjes/tut10.png')
-        screen.fill((white))
-        screen.blit(redSquare, (0, 0))
-        pygame.display.flip()
-
-        running = True
-        while (running):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    if redSquare.get_rect().collidepoint(x, y):
-                        print("ha")
 
 class Tutorial:
+    def __init__(self, previous_screen):
+        self.prevscr =previous_screen
+
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
+        self.prevscr = previous_screen
+
+    def rules(self):
+
+        plaatje = pygame.image.load('images/Tutorialplaatjes/tut1.png')
+        screen.fill((white))
+        screen.blit(plaatje, (0, 0))
+        pygame.display.flip()
+
+        running = True
+        while (running):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = event.pos
+                    if plaatje.get_rect().collidepoint(x, y):
+                        return
+
+    def rules2(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut2.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules3(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut3.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules4(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut4.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules5(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut5.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules6(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut6.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules7(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut7.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules8(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut8.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules9(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut9.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
+
+    def rules10(self):
+
+            plaatje = pygame.image.load('images/Tutorialplaatjes/tut10.png')
+            screen.fill((white))
+            screen.blit(plaatje, (0, 0))
+            pygame.display.flip()
+
+            running = True
+            while (running):
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        x, y = event.pos
+                        if plaatje.get_rect().collidepoint(x, y):
+                            return
 
 
 
@@ -225,7 +220,7 @@ class Tutorial:
         BackRect.center = (62.5, 25)
         SkipText, SkipRect = self.text_objects("Speluitleg overslaan >", smallText, white)
         SkipRect.center = ((width - 100), 25)
-        NextText, NextRect = self.text_objects("Begin tutorial slideshow", midText, black)
+        NextText, NextRect = self.text_objects("Begin tutorial", midText, black)
         NextRect.center = (650, 385)
 
         mouse = pygame.mouse.get_pos()
@@ -257,50 +252,17 @@ class Tutorial:
             pygame.draw.rect(screen, bright_yellow, ((width/3), (height/2), 450, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut1,(0,0))
-                    # pygame.display.flip()
-                    # time.sleep(5)
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut2,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut3,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut4,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut5,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut6,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut7,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut8,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut9,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut10,(0,0))
-                    # time.sleep(5)
-                    # pygame.display.flip()
-                    # screen.fill((255,255,255))
-                    # screen.blit(tut1,(0,0))
-                    # time.sleep(1)
-                    rules()
+                    self.rules()
+                    self.rules2()
+                    self.rules3()
+                    self.rules4()
+                    self.rules5()
+                    self.rules6()
+                    self.rules7()
+                    self.rules8()
+                    self.rules9()
+                    self.rules10()
+                    return self.prevscr
                     #laad current afbeelding nr + 1
         else:
             # pygame.draw.rect(screen, yellow, ((width - 100), (height - 50), 100, 50))

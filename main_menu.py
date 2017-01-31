@@ -37,7 +37,7 @@ class Main_menu:
             pygame.draw.rect(screen, brigth_green, (((width/2) - 100), ((height/3) - 25), 200, 50))
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    tut = Tutorial()
+                    tut = Tutorial(self)
                     return tut
         else:
             pygame.draw.rect(screen, green, (((width/2) - 100), ((height/3) - 25), 200, 50))
