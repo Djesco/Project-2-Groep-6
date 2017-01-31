@@ -39,7 +39,7 @@ class Player_select:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     from tutorial import Tutorial
-                    tut = Tutorial()
+                    tut = Tutorial(self)
                     return tut
         else:
             pygame.draw.rect(screen, red, (0, 0, 125, 50))
