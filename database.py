@@ -27,24 +27,12 @@ def insert_players(name, score):
 
 
 def download_scores():
-    list = interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")
-    result = ""
-    for i in range(len(list)):
-            result += "Name: " + interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[i][0] + ", Turns: "
-            result += str(interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[i][1])
-            result += "\n"
-
-
+    result = interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")
     return result
 
 def download_top_score():
-    result = ""
-    result += "Name: " + interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[0][0] + ", Turns: "
-    result += str(interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[0][1])
+    result = interaction_database("SELECT * FROM highscores ORDER BY highscores ASC")[0][1]
     return result
 
-allscores = download_scores()
-topscores = download_top_score()
-print(allscores)
-print(topscores)
+
 

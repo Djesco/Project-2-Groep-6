@@ -1,4 +1,5 @@
 import pygame
+from database import *
 
 
 class Endscreen:
@@ -8,6 +9,8 @@ class Endscreen:
     def text_objects(self, text, font, color):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
+
+
 
     def update(self, screen, width, height, events, dt):
         white = (255, 255, 255)

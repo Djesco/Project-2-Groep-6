@@ -170,6 +170,7 @@ class Game:
         self.MoveDirection(self.player, dt)
         self.TileAction(self.player)
         if self.board[self.player.pos.x, self.player.pos.y].boat:
+            upload_score(self.player.name, self.gameturns)
             end = Endscreen(self.player.name)
             return end
         self.changeturn()
@@ -273,7 +274,7 @@ class Game:
             playerlist = []
             for i in spelerlijst:
                 name = i
-                player = Player(Vector2(0, 10), colors.randomcolor(), name)
+                player = Player(Vector2(30, 16), colors.randomcolor(), name)
                 playerlist.append(player)
             return playerlist
 
