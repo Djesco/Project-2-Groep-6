@@ -2,10 +2,8 @@ import pygame
 import time
 import random
 import colors
-from Game import Game
 from main_menu import Main_menu 
 pygame.init()
-import Board as b
 fullscreen = pygame.FULLSCREEN
 width = 1280
 height = 720
