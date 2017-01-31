@@ -68,6 +68,12 @@ class Namen():
                         self.all_players.append(str(self.naam))
                         self.naam = ""
                         self.letterrect.y += 50
+                        
+                        if len(self.all_players) == self.playeramount:
+                            text = font.render("klik op de gevangenis", True, self.black)
+                            textrect = text.get_rect()
+                            textrect.center = (640,500)
+                            self.screen.blit(text,textrect)
 
                     font = pygame.font.Font('freesansbold.ttf', 38)
                     perletter = font.render(self.naam, True, self.black)
